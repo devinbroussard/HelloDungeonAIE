@@ -47,6 +47,7 @@ namespace HelloDungeonAIE
             }
 
             //Displays character stat
+            Console.Clear();
             Console.WriteLine("Your Character Stats:\n");
             Console.WriteLine("Name: " + name);
             Console.WriteLine("Job: " + characterJob);
@@ -57,7 +58,6 @@ namespace HelloDungeonAIE
 
             //First stage
             Console.WriteLine("You awaken in a forest.");
-            Console.ReadKey();
             Console.WriteLine("Upon looking around, you notice that the sun is setting.");
 
             //displays different text to the player, depending on their class
@@ -81,6 +81,25 @@ namespace HelloDungeonAIE
             //Gives the player two different outcomes, depending on the input given
             if (input == "1" || input == "right")
             {
+                rightPath();
+
+            }
+
+            else if (input == "2" || input == "left")
+            {
+                leftPath();
+            }
+
+            void leftPath()
+            {
+                Console.Clear();
+                Console.WriteLine("You walk down the path to your left, until you see a strange man standing in the road.");
+                Console.WriteLine("He waves at you, and then gestures for you to come closer");
+            }
+
+            void rightPath()
+            {
+                Console.Clear();
                 Console.WriteLine("You walk down the path to your right, until you reach a point where the path is suddently cut off by a rushing river.");
                 Console.WriteLine("You see a fallen tree laid across the river. You might be able to cross it if you tried.");
                 Console.WriteLine("Will you turn back, or cross the tree?\n");
@@ -88,24 +107,22 @@ namespace HelloDungeonAIE
                 Console.WriteLine("2. Turn around");
                 input = Console.ReadLine().ToLower();
 
-                if (input == "1" || input == "cross" || input == "cross the tree") ;
+                if (input == "1" || input == "cross" || input == "cross the tree")
                 {
+                    Console.Clear();
                     Console.WriteLine("You attempt to cross the tree.");
-                    Console.WriteLine("You only make it half way until it snaps, leaving you to drown in the rushing river.");
+                    Console.WriteLine("Unfortunately, you only make it half way before the tree breaks, leaving you to drown in the rushing water");
+                    Console.WriteLine("You die a sad death");
                     Console.WriteLine("Game over!");
                 }
-                else if (input == "2" || input == "cross" || input == "cross the tree")
+                else if (input == "2" || input == "turn" || input == "turn around")
                 {
-
+                    Console.WriteLine("You head back towards where you came");
+                    Console.ReadKey();
+                    leftPath();
                 }
-
             }
 
-            else if (input == "2" || input == "left")
-            {
-                Console.WriteLine("You down the path to your left, until you see a strange man standing in the road.");
-                Console.WriteLine("He waves at you, and then gestures for you to come closer");
-            }
 
         }
     }
