@@ -6,20 +6,29 @@ namespace HelloDungeonAIE
 {
     class Game
     {
+        //initializes variables
+        int health = 0;
+        int power = 0;
+        string characterJob = "";
+        string name = "";
+        bool validInputRecieved = false;
+        string input;
+        int numberOfAttempts = 3;
+        int attemptsRemaining = 3;
+
         public void Run()
         {
+            StartGame();
+
+
+        }
+
+        public void StartGame()
+        {
+            //displays a welcome message to the player
             string start = "Welcome!";
             Console.WriteLine(start);
 
-            //initializes variables
-            int health = 0;
-            int power = 0;
-            string characterJob = "";
-            string name = "";
-            bool validInputRecieved = false;
-            string input;
-            int numberOfAttempts = 3;
-            int attemptsRemaining = 3;
 
 
             //Gets player's name
@@ -60,10 +69,14 @@ namespace HelloDungeonAIE
                     Console.ReadKey();
                 }
 
-                Console.Clear();
+                DisplayStats();
+                FirstStage();
+
             }
+        }
 
-
+        void DisplayStats()
+        {
             //Displays character stat
             Console.Clear();
             Console.WriteLine("Your Character Stats:\n");
@@ -73,7 +86,10 @@ namespace HelloDungeonAIE
             Console.WriteLine("Power: " + power);
             Console.ReadKey();
             Console.Clear();
+        }
 
+        void FirstStage()
+        {
             //First stage
             Console.WriteLine("You awaken in a forest.");
             Console.WriteLine("Upon looking around, you notice that the sun is setting.");
@@ -103,75 +119,48 @@ namespace HelloDungeonAIE
             //Gives the player two different outcomes, depending on the input given
             if (input == "1" || input == "right")
             {
-
-                Console.Clear();
-                Console.WriteLine("You walk down the path to your right, until you reach a point where the path is suddently cut off by a rushing river.");
-                Console.WriteLine("You see a fallen tree laid across the river. You might be able to cross it if you tried.");
-                Console.WriteLine("Will you turn back, or cross the tree?\n");
-                Console.WriteLine("1. Cross the Tree");
-                Console.WriteLine("2. Turn around");
-                Console.Write("> ");
-                input = Console.ReadLine().ToLower();
-
-                if (input == "1" || input == "cross" || input == "cross the tree")
-                {
-                    Console.Clear();
-                    Console.WriteLine("You attempt to cross the tree.");
-                    Console.WriteLine("Unfortunately, you only make it half way before the tree breaks, leaving you to drown in the rushing water.");
-                    Console.WriteLine("You die a sad death.");
-                    Console.ReadKey();
-                    Console.Clear();
-                    Console.WriteLine("Game over!");
-                    Console.ReadKey();
-                }
-                else if (input == "2" || input == "turn" || input == "turn around")
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("You head back towards where you came");
-                    Console.ReadKey();
-                    Console.Clear();
-                    Console.WriteLine("You walk down the path to your left, until you see a strange man standing in the road.");
-                    Console.WriteLine("He waves at you, and then gestures for you to come closer");
-                    Console.WriteLine("Hello stranger!', the strange man says to you.");
-                    Console.WriteLine("I have a riddle for you! If you can solve it, I'll help you out!', he says.");
-                    Console.WriteLine("You have three chances! If you fail, you will die!', he says.");
-
-                    for (int i = 0; i < numberOfAttempts; i++)
-                    {
-                        Console.ReadKey();
-                        Console.Clear();
-                        Console.WriteLine("You decide to listen to the strange man's riddle. " +
-                            "\n'Okay', you say to him.");
-                        Console.WriteLine("'What has to be broken before you can use it?', says the strange man.");
-                        Console.WriteLine("Attempts remaining: " + attemptsRemaining);
-                        Console.Write("> ");
-                        input = Console.ReadLine().ToLower();
-
-                        if (input == "egg")
-                        {
-                            Console.WriteLine("'Wow, good job!', the strange man says.");
-                            Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!', he says. He then runs off into the forest.");
-                            break;
-                        }
-                        else
-                        {
-                            attemptsRemaining--;
-                            Console.WriteLine("You were wrong!");
-                            Console.WriteLine("Attempts remaining:" + attemptsRemaining);
-                        }
-                        
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input!");
-                    Console.ReadKey();
-                }
+                GoRightPath();
             }
 
 
             else if (input == "2" || input == "left")
             {
+                GoLeftPath();
+            }
+            else
+            {
+                Console.WriteLine("Invalid input!");
+                Console.ReadKey();
+            }
+        }
+
+        public void GoRightPath()
+        {
+            Console.Clear();
+            Console.WriteLine("You walk down the path to your right, until you reach a point where the path is suddently cut off by a rushing river.");
+            Console.WriteLine("You see a fallen tree laid across the river. You might be able to cross it if you tried.");
+            Console.WriteLine("Will you turn back, or cross the tree?\n");
+            Console.WriteLine("1. Cross the Tree");
+            Console.WriteLine("2. Turn around");
+            Console.Write("> ");
+            input = Console.ReadLine().ToLower();
+
+            if (input == "1" || input == "cross" || input == "cross the tree")
+            {
+                Console.Clear();
+                Console.WriteLine("You attempt to cross the tree.");
+                Console.WriteLine("Unfortunately, you only make it half way before the tree breaks, leaving you to drown in the rushing water.");
+                Console.WriteLine("You die a sad death.");
+                Console.ReadKey();
+                Console.Clear();
+                Console.WriteLine("Game over!");
+                Console.ReadKey();
+            }
+            else if (input == "2" || input == "turn" || input == "turn around")
+            {
+                Console.WriteLine();
+                Console.WriteLine("You head back towards where you came");
+                Console.ReadKey();
                 Console.Clear();
                 Console.WriteLine("You walk down the path to your left, until you see a strange man standing in the road.");
                 Console.WriteLine("He waves at you, and then gestures for you to come closer");
@@ -199,36 +188,92 @@ namespace HelloDungeonAIE
                     else
                     {
                         attemptsRemaining--;
-                        Console.WriteLine("'Haha, that was wrong!', the strange man says.");
-                        Console.WriteLine("Attempts remaining: " + attemptsRemaining);
-
-                        if (attemptsRemaining == 0)
-                        {
-                            Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
-                            Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
-                            Console.WriteLine("You died a pathetic death.");
-                            Console.ReadKey();
-                            Console.WriteLine("Game over!");
-                            Console.ReadKey();
-                            Console.Clear();
-                            Run();
-                        }
+                        Console.WriteLine("You were wrong!");
+                        Console.WriteLine("Attempts remaining:" + attemptsRemaining);
                     }
+
                 }
-                Console.WriteLine("You head off in the direction of the town.");
-
-
-            }
-            else
-            {
-                Console.WriteLine("Invalid input!");
-                Console.ReadKey();
             }
         }
 
-        public void startGame()
+        public void GoLeftPath()
         {
+            Console.Clear();
+            Console.WriteLine("You walk down the path to your left, until you see a strange man standing in the road.");
+            Console.WriteLine("He waves at you, and then gestures for you to come closer");
+            Console.WriteLine("Hello stranger!', the strange man says to you.");
+            Console.WriteLine("I have a riddle for you! If you can solve it, I'll help you out!', he says.");
+            Console.WriteLine("You have three chances! If you fail, you will die!', he says.");
 
+            for (int i = 0; i < numberOfAttempts; i++)
+            {
+                Console.ReadKey();
+                Console.Clear();
+                Console.WriteLine("You decide to listen to the strange man's riddle. " +
+                    "\n'Okay', you say to him.");
+                Console.WriteLine("'What has to be broken before you can use it?', says the strange man.");
+                Console.WriteLine("Attempts remaining: " + attemptsRemaining);
+                Console.Write("> ");
+                input = Console.ReadLine().ToLower();
+
+                if (input == "egg")
+                {
+                    Console.WriteLine("'Wow, good job!', the strange man says.");
+                    Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!', he says. He then runs off into the forest.");
+                    break;
+                }
+                else
+                {
+                    attemptsRemaining--;
+                    Console.WriteLine("'Haha, that was wrong!', the strange man says.");
+                    Console.WriteLine("Attempts remaining: " + attemptsRemaining);
+
+                    if (attemptsRemaining == 0)
+                    {
+                        Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
+                        Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
+                        Console.WriteLine("You died a pathetic death.");
+                        Console.ReadKey();
+                        Console.WriteLine("Game over!");
+                        Console.ReadKey();
+                        Console.Clear();
+                        Run();
+                    }
+                }
+            }
+        }
+
+        public int GetInput(string description, string option1, string option2)
+        {
+            int inputRecieved = 0;
+
+            while !(inputRecieved == 1 || inputRecieved == 2)
+            {
+                //Asks player what class they'd like to choose, and gets input
+                Console.WriteLine(description);
+                Console.WriteLine("1. " + option1);
+                Console.WriteLine("2. " + option2);
+                Console.Write("> ");
+                input = Console.ReadLine().ToLower();
+
+                //Sets player's class to either wizard or knight, depending on input given
+                if (input == "1" || input == option1)
+                {
+                    inputRecieved = 1;
+                    return 1;
+                }
+                else if (input == "2" || input == option2)
+                {
+                    inputRecieved = 2;
+                    return 2;
+                }
+                //..displays error message
+                else
+                {
+                    Console.WriteLine("Invalid input!");
+                    Console.ReadKey();
+                }
+            }
         }
     }
 }
