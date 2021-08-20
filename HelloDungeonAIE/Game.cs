@@ -74,7 +74,6 @@ namespace HelloDungeonAIE
             Console.ReadKey();
             Console.Clear();
 
-
             //First stage
             Console.WriteLine("You awaken in a forest.");
             Console.WriteLine("Upon looking around, you notice that the sun is setting.");
@@ -154,11 +153,13 @@ namespace HelloDungeonAIE
                             Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!', he says. He then runs off into the forest.");
                             break;
                         }
-                            Console.Write("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac." +
-                                "\nYou start to feel strange, as you see your soul being sucked from your body.");
-                            Console.WriteLine("You died a pathetic death.");
-                            Console.ReadKey();
-                            Console.WriteLine("Game over!");
+                        else
+                        {
+                            attemptsRemaining--;
+                            Console.WriteLine("You were wrong!");
+                            Console.WriteLine("Attempts remaining:" + attemptsRemaining);
+                        }
+                        
                     }
                 }
                 else
@@ -189,25 +190,45 @@ namespace HelloDungeonAIE
                     Console.Write("> ");
                     input = Console.ReadLine().ToLower();
 
-                    if (input == "egg") ;
+                    if (input == "egg")
                     {
                         Console.WriteLine("'Wow, good job!', the strange man says.");
                         Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!', he says. He then runs off into the forest.");
                         break;
                     }
+                    else
+                    {
+                        attemptsRemaining--;
+                        Console.WriteLine("'Haha, that was wrong!', the strange man says.");
+                        Console.WriteLine("Attempts remaining: " + attemptsRemaining);
 
-                    Console.Write("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac." +
-                        "\nYou start to feel strange, as you see your soul being sucked from your body.");
-                    Console.WriteLine("You died a pathetic death");
-                    Console.ReadKey();
-                    Console.WriteLine("Game over!");
+                        if (attemptsRemaining == 0)
+                        {
+                            Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
+                            Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
+                            Console.WriteLine("You died a pathetic death.");
+                            Console.ReadKey();
+                            Console.WriteLine("Game over!");
+                            Console.ReadKey();
+                            Console.Clear();
+                            Run();
+                        }
+                    }
                 }
+                Console.WriteLine("You head off in the direction of the town.");
+
+
             }
             else
             {
                 Console.WriteLine("Invalid input!");
                 Console.ReadKey();
             }
+        }
+
+        public void startGame()
+        {
+
         }
     }
 }
