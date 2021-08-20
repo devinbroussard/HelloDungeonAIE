@@ -23,6 +23,7 @@ namespace HelloDungeonAIE
 
         }
 
+        //Function calls the welcome menu, and then leads to the rest of the game
         public void StartGame()
         {
             //displays a welcome message to the player
@@ -32,20 +33,17 @@ namespace HelloDungeonAIE
 
 
             //Gets player's name
-            Console.WriteLine("What is your name?");
+            Console.WriteLine("What is your name?\n");
             Console.Write("> ");
             name = Console.ReadLine();
             Console.Clear();
 
-
+            //Asks for player input, and gives an error if the input is invalid
             while (validInputRecieved == false)
             {
                 //Asks player what class they'd like to choose, and gets input
-                Console.WriteLine("Pick a class!");
-                Console.WriteLine("1. Wizard");
-                Console.WriteLine("2. Knight");
-                Console.Write("> ");
-                input = Console.ReadLine().ToLower();
+                GetInput("Pick a class!", "Wizard", "Knight");
+
 
                 //Sets player's class to either wizard or knight, depending on input given
                 if (input == "1" || input == "wizard")
@@ -62,19 +60,15 @@ namespace HelloDungeonAIE
                     characterJob = "Knight";
                     validInputRecieved = true;
                 }
-                //..displays error message
-                else
-                {
-                    Console.WriteLine("Invalid input!");
-                    Console.ReadKey();
-                }
 
+                //calls two functions which progress the game further
                 DisplayStats();
                 FirstStage();
 
             }
         }
 
+        //function for Displaying character stats; can be used multiple times
         void DisplayStats()
         {
             //Displays character stat
@@ -88,6 +82,7 @@ namespace HelloDungeonAIE
             Console.Clear();
         }
 
+        //function that contains the first stage, and that will call the next stage
         void FirstStage()
         {
             //First stage
@@ -134,17 +129,16 @@ namespace HelloDungeonAIE
             }
         }
 
+        //calls the scenario for if the player chooses the right path
         public void GoRightPath()
         {
             Console.Clear();
             Console.WriteLine("You walk down the path to your right, until you reach a point where the path is suddently cut off by a rushing river.");
             Console.WriteLine("You see a fallen tree laid across the river. You might be able to cross it if you tried.");
-            Console.WriteLine("Will you turn back, or cross the tree?\n");
-            Console.WriteLine("1. Cross the Tree");
-            Console.WriteLine("2. Turn around");
-            Console.Write("> ");
-            input = Console.ReadLine().ToLower();
 
+            GetInput("Will you turn back, or cross the tree?", "Cross the Tree", "Turn around");
+
+            //Gives the player a game over if they choose the risky option
             if (input == "1" || input == "cross" || input == "cross the tree")
             {
                 Console.Clear();
@@ -156,46 +150,18 @@ namespace HelloDungeonAIE
                 Console.WriteLine("Game over!");
                 Console.ReadKey();
             }
+            
+            //Lets the player turn around instead of taking the risky option
             else if (input == "2" || input == "turn" || input == "turn around")
             {
                 Console.WriteLine();
                 Console.WriteLine("You head back towards where you came");
                 Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("You walk down the path to your left, until you see a strange man standing in the road.");
-                Console.WriteLine("He waves at you, and then gestures for you to come closer");
-                Console.WriteLine("Hello stranger!', the strange man says to you.");
-                Console.WriteLine("I have a riddle for you! If you can solve it, I'll help you out!', he says.");
-                Console.WriteLine("You have three chances! If you fail, you will die!', he says.");
-
-                for (int i = 0; i < numberOfAttempts; i++)
-                {
-                    Console.ReadKey();
-                    Console.Clear();
-                    Console.WriteLine("You decide to listen to the strange man's riddle. " +
-                        "\n'Okay', you say to him.");
-                    Console.WriteLine("'What has to be broken before you can use it?', says the strange man.");
-                    Console.WriteLine("Attempts remaining: " + attemptsRemaining);
-                    Console.Write("> ");
-                    input = Console.ReadLine().ToLower();
-
-                    if (input == "egg")
-                    {
-                        Console.WriteLine("'Wow, good job!', the strange man says.");
-                        Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!', he says. He then runs off into the forest.");
-                        break;
-                    }
-                    else
-                    {
-                        attemptsRemaining--;
-                        Console.WriteLine("You were wrong!");
-                        Console.WriteLine("Attempts remaining:" + attemptsRemaining);
-                    }
-
-                }
+                GoLeftPath();
             }
         }
 
+        //Calls the scenario for if the player chooses the left path
         public void GoLeftPath()
         {
             Console.Clear();
@@ -205,29 +171,35 @@ namespace HelloDungeonAIE
             Console.WriteLine("I have a riddle for you! If you can solve it, I'll help you out!', he says.");
             Console.WriteLine("You have three chances! If you fail, you will die!', he says.");
 
+            //Gives the player three attempts at solving the riddle
             for (int i = 0; i < numberOfAttempts; i++)
             {
                 Console.ReadKey();
                 Console.Clear();
-                Console.WriteLine("You decide to listen to the strange man's riddle. " +
-                    "\n'Okay', you say to him.");
-                Console.WriteLine("'What has to be broken before you can use it?', says the strange man.");
+                Console.WriteLine("You decide to listen to the strange man's riddle.");
+                Console.WriteLine("'What has to be broken before you can use it?', says the strange man.\n");
                 Console.WriteLine("Attempts remaining: " + attemptsRemaining);
                 Console.Write("> ");
                 input = Console.ReadLine().ToLower();
 
                 if (input == "egg")
                 {
+                    Console.Clear();
                     Console.WriteLine("'Wow, good job!', the strange man says.");
-                    Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!', he says. He then runs off into the forest.");
+                    Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!'");
+                    Console.WriteLine("He then runs off into the forest.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("You head in the direction the strange man told you to go...");
                     break;
                 }
                 else
                 {
                     attemptsRemaining--;
+                    Console.WriteLine();
                     Console.WriteLine("'Haha, that was wrong!', the strange man says.");
-                    Console.WriteLine("Attempts remaining: " + attemptsRemaining);
 
+                    //if the player runs out of attempts, the game will be over, and then restart
                     if (attemptsRemaining == 0)
                     {
                         Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
@@ -240,40 +212,43 @@ namespace HelloDungeonAIE
                         Run();
                     }
                 }
+
+                //Will call the next level here
             }
         }
 
+        //Generic function that asks for user input; can be used multiple times 
         public int GetInput(string description, string option1, string option2)
         {
             int inputRecieved = 0;
 
-            while !(inputRecieved == 1 || inputRecieved == 2)
+            while (!(inputRecieved == 1 || inputRecieved == 2))
             {
-                //Asks player what class they'd like to choose, and gets input
-                Console.WriteLine(description);
+                //Displays character options and asks for input
+                Console.WriteLine(description + "\n");
                 Console.WriteLine("1. " + option1);
                 Console.WriteLine("2. " + option2);
                 Console.Write("> ");
                 input = Console.ReadLine().ToLower();
 
-                //Sets player's class to either wizard or knight, depending on input given
-                if (input == "1" || input == option1)
+                //Gives player two different outcomes depending on their input
+                if (input == "1" || input == option1.ToLower())
                 {
                     inputRecieved = 1;
-                    return 1;
                 }
-                else if (input == "2" || input == option2)
+                else if (input == "2" || input == option2.ToLower())
                 {
                     inputRecieved = 2;
-                    return 2;
                 }
                 //..displays error message
                 else
                 {
                     Console.WriteLine("Invalid input!");
                     Console.ReadKey();
+                    Console.Clear();
                 }
             }
+            return inputRecieved;
         }
     }
 }
