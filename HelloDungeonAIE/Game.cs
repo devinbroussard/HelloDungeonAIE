@@ -160,6 +160,8 @@ namespace HelloDungeonAIE
             Console.Clear();
             Console.WriteLine("You walk down the path to your left, until you see a strange man standing in the road.");
             Console.WriteLine("He waves at you, and then gestures for you to come closer");
+            Console.ReadKey();
+            Console.Clear();
             Console.WriteLine("Hello stranger!', the strange man says to you.");
             Console.WriteLine("I have a riddle for you! If you can solve it, I'll help you out!', he says.");
             Console.WriteLine("You have three chances! If you fail, you will die!', he says.");
@@ -180,48 +182,8 @@ namespace HelloDungeonAIE
                 GameOver();
             }
 
-            //Gives the player three attempts at solving the riddle
-            for (int i = 0; i < numberOfAttempts; i++)
-            {
-                Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("You decide to listen to the strange man's riddle.");
-                Console.WriteLine("'What has to be broken before you can use it?', says the strange man.\n");
-                Console.WriteLine("Attempts remaining: " + attemptsRemaining);
-                Console.Write("> ");
-                input = Console.ReadLine().ToLower();
+            StrangeManRiddle();
 
-                //Progresses the story if the player gets the riddle correct
-                if (input == "egg")
-                {
-                    Console.Clear();
-                    Console.WriteLine("'Wow, good job!', the strange man says.");
-                    Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!'");
-                    Console.WriteLine("He then runs off into the forest.");
-                    Console.ReadKey();
-                    Console.Clear();
-                    Console.WriteLine("You head in the direction the strange man told you to go.");
-                    Console.WriteLine("You followed the path and made it to your home village!");
-                    Console. ReadKey();
-                    break;
-                }
-                else
-                {
-                    attemptsRemaining--;
-                    Console.WriteLine();
-                    Console.WriteLine("'Haha, that was wrong!', the strange man says.");
-
-                    //if the player runs out of attempts, the game will be over, and then restart
-                    if (attemptsRemaining == 0)
-                    {
-                        Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
-                        Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
-                        Console.WriteLine("You die a pathetic death!");
-                        Console.ReadKey();
-                        GameOver();
-                    }
-                }
-            }
             //Would call the next level here, but for time's sake will end the game
             WinScreen();
         }
@@ -319,6 +281,72 @@ namespace HelloDungeonAIE
             input = "";
             numberOfAttempts = 3;
             attemptsRemaining = 3;
+        }
+
+        public void StrangeManRiddle()
+        {
+            //Gives the player three attempts at solving the riddle
+            for (int i = 0; i < numberOfAttempts; i++)
+            {
+                Console.Clear();
+                Console.WriteLine("You decide to listen to the strange man's riddle.");
+                Console.WriteLine("'What has to be broken before you can use it?', says the strange man.\n");
+                Console.WriteLine("Attempts remaining: " + attemptsRemaining);
+                Console.Write("> ");
+                input = Console.ReadLine().ToLower();
+
+                //Progresses the story if the player gets the riddle correct
+                if (input == "egg")
+                {
+                    Console.Clear();
+                    Console.WriteLine("'Wow, good job!', the strange man says.");
+                    Console.WriteLine("'There is a town along this road! You should reach if before night if you hurry!'");
+                    Console.WriteLine("He then runs off into the forest.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("You head in the direction the strange man told you to go.");
+                    Console.WriteLine("You followed the path and made it to your home village!");
+                    Console.ReadKey();
+                    break;
+                }
+                else
+                {
+                    attemptsRemaining--;
+                    health -= 50;
+                    Console.WriteLine();
+                    Console.WriteLine("'Haha, that was wrong!', the strange man says.");
+                    Console.WriteLine("You see ghostly bits leaving your body and heading toward the man.\n");
+                    Console.ReadKey();
+                    Console.WriteLine("You lost 50 health!");
+                    Console.WriteLine("Current health: " + health);
+                    Console.ReadKey();
+
+                    //if the player runs out of attempts, the game will be over, and then restart
+                    if (attemptsRemaining == 0)
+                    {
+                        Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
+                        Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
+                        Console.WriteLine("You die a pathetic death!");
+                        Console.ReadKey();
+                        GameOver();
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Prints all even numbers in the range [num1..num2]
+        /// </summary>
+        /// <param name="num1">The starting number</param>
+        /// <param name="num2">The ending number</param>
+        void PrintAllEven(int num1, int num2)
+        {
+            for (int i = num1; i <= num2; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    Console.WriteLine(i);
+                }
+            }
         }
     }
 }
