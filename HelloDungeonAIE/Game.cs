@@ -36,8 +36,7 @@ namespace HelloDungeonAIE
 
             if (input == 1)
             {
-                health = 2002
-                    ;
+                health = 200;
                 power = 15;
                 characterJob = "Wizard";
             }
