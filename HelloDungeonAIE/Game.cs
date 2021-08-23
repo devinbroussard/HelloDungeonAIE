@@ -104,12 +104,7 @@ namespace HelloDungeonAIE
             //Asks for player input
             Console.WriteLine("You begin walking towards a dirt path that you see in the distance.");
             Console.WriteLine("You reach the path, and are now faced with a decision.");
-            Console.WriteLine("Will you walk down the path to your left, or right?\n");
-            Console.WriteLine("1. Right");
-            Console.WriteLine("2. Left");
-            Console.Write("> ");
-            input = Console.ReadLine().ToLower();
-
+            GetInput("Will you walk down the path to your left, or right ? ", "Right", "Left");
 
             //Gives the player two different outcomes, depending on the input given
             if (input == "1" || input == "right")
@@ -146,9 +141,7 @@ namespace HelloDungeonAIE
                 Console.WriteLine("Unfortunately, you only make it half way before the tree breaks, leaving you to drown in the rushing water.");
                 Console.WriteLine("You die a sad death.");
                 Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("Game over!");
-                Console.ReadKey();
+                GameOver();
             }
             
             //Lets the player turn around instead of taking the risky option
@@ -170,6 +163,22 @@ namespace HelloDungeonAIE
             Console.WriteLine("Hello stranger!', the strange man says to you.");
             Console.WriteLine("I have a riddle for you! If you can solve it, I'll help you out!', he says.");
             Console.WriteLine("You have three chances! If you fail, you will die!', he says.");
+            Console.ReadKey();
+            Console.Clear();
+
+            //Asks the player on input on a decision that will influence the game
+            GetInput("Will you take the strange man's riddle?", "Yes", "No");
+
+            //The strange man kills the player if they do not take the riddle
+            if (input == "no" || input == "2")
+            {
+                Console.Clear();
+                Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
+                Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
+                Console.WriteLine("You die a pathetic death!");
+                Console.ReadKey();
+                GameOver();
+            }
 
             //Gives the player three attempts at solving the riddle
             for (int i = 0; i < numberOfAttempts; i++)
@@ -182,6 +191,7 @@ namespace HelloDungeonAIE
                 Console.Write("> ");
                 input = Console.ReadLine().ToLower();
 
+                //Progresses the story if the player gets the riddle correct
                 if (input == "egg")
                 {
                     Console.Clear();
@@ -190,7 +200,9 @@ namespace HelloDungeonAIE
                     Console.WriteLine("He then runs off into the forest.");
                     Console.ReadKey();
                     Console.Clear();
-                    Console.WriteLine("You head in the direction the strange man told you to go...");
+                    Console.WriteLine("You head in the direction the strange man told you to go.");
+                    Console.WriteLine("You followed the path and made it to your home village!");
+                    Console. ReadKey();
                     break;
                 }
                 else
@@ -204,17 +216,14 @@ namespace HelloDungeonAIE
                     {
                         Console.WriteLine("The strange man's eyes begin to glow a deep red, and he starts laughing like a maniac.");
                         Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
-                        Console.WriteLine("You died a pathetic death.");
+                        Console.WriteLine("You die a pathetic death!");
                         Console.ReadKey();
-                        Console.WriteLine("Game over!");
-                        Console.ReadKey();
-                        Console.Clear();
-                        Run();
+                        GameOver();
                     }
                 }
-
-                //Will call the next level here
             }
+            //Would call the next level here, but for time's sake will end the game
+            WinScreen();
         }
 
         //Generic function that asks for user input; can be used multiple times 
@@ -245,10 +254,71 @@ namespace HelloDungeonAIE
                 {
                     Console.WriteLine("Invalid input!");
                     Console.ReadKey();
-                    Console.Clear();
+                    return 0;
                 }
             }
             return inputRecieved;
+        }
+
+        //Win screen that can be called anywhere, and that will ask the player if they'd like to play again
+        public void WinScreen()
+        {
+            Console.Clear();
+            Console.WriteLine("You won!\n");
+            Console.ReadKey();
+            GetInput("Would you like to play again?", "Yes", "No");
+
+            if (input == "1" || input == "yes")
+            {
+                ResetVariables();
+                Console.Clear();
+                StartGame();
+            }
+            else if (input == "2" || input == "no")
+            {
+                Console.Clear();
+                Console.WriteLine("Okay, goodbye!");
+                Console.ReadKey();
+            }
+
+        }
+
+        //A generic game over function that can be used multiple times 
+        public void GameOver()
+        {
+            Console.Clear();
+            Console.WriteLine("Game over!\n");
+            Console.ReadKey();
+
+            GetInput("Will you give up, or try again?", "Try again", "Give up");
+
+            //Restarts the game if player wants to
+            if (input == "1" || input == "try again")
+            {
+                ResetVariables();
+                Console.Clear();
+                StartGame();
+            }
+            //Ends game if player wants to
+            else if (input == "2" || input == "give up")
+            {
+                Console.Clear();
+                Console.WriteLine("Goodbye, coward!");
+                Console.ReadKey();
+            }
+        }
+
+        //Resets variables; used for if the player restarts game
+        public void ResetVariables()
+        {
+            health = 0;
+            power = 0;
+            characterJob = "";
+            name = "";
+            validInputRecieved = false;
+            input = "";
+            numberOfAttempts = 3;
+            attemptsRemaining = 3;
         }
     }
 }
