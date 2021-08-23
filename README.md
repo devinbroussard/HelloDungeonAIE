@@ -1,3 +1,3 @@
 ## HelloDungeon
 First AIE coding project
-Quick and simple console game
+Quick and simple text-based console game
