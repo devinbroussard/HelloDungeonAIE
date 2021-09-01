@@ -12,15 +12,48 @@ namespace HelloDungeonAIE
         string characterJob = "";
         string name = "";
         int input;
+        bool gameOver;
+        int currentArea = 0;
+        bool playerIsDead = false;
+
 
         public void Run()
         {
-            StartGame();
+            while (!gameOver)
+            {
+                DisplayCurrentStage();
+                currentArea++;
+
+                if (playerIsDead)
+                {
+                    GameOver();
+                }
+
+                if (currentArea == 2)
+                {
+                    WinScreen();
+                }
+            }
+        }
+
+        void DisplayCurrentStage()
+        {
+            if (currentArea == 0)
+            {
+                StartGame();
+            }
+            if (currentArea == 1)
+            {
+                FirstStage();
+            }
         }
 
         //Function calls the welcome menu, and then leads to the rest of the game
-        public void StartGame()
+        void StartGame()
         {
+            //Resets variables
+            ResetVariables();
+
             //displays a welcome message to the player
             string start = "Welcome!";
             Console.WriteLine(start);
@@ -49,7 +82,6 @@ namespace HelloDungeonAIE
 
             //calls two functions which progress the game further
             DisplayStats();
-            FirstStage();
 
         }
 
@@ -126,7 +158,7 @@ namespace HelloDungeonAIE
                 Console.WriteLine("Unfortunately, you only make it half way before the tree breaks, leaving you to drown in the rushing water.");
                 Console.WriteLine("You die a sad death.");
                 Console.ReadKey();
-                GameOver();
+                playerIsDead = true;
             }
 
             //Lets the player turn around instead of taking the risky option
@@ -164,7 +196,7 @@ namespace HelloDungeonAIE
                 Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
                 Console.WriteLine("You die a pathetic death!");
                 Console.ReadKey();
-                GameOver();
+                playerIsDead = true;
             }
 
             if (input == 1)
@@ -217,15 +249,16 @@ namespace HelloDungeonAIE
 
             if (input == 1)
             {
-                ResetVariables();
                 Console.Clear();
-                StartGame();
+                currentArea = 0;
+                gameOver = false;
             }
             else if (input == 2)
             {
                 Console.Clear();
                 Console.WriteLine("Okay, goodbye!");
                 Console.ReadKey();
+                gameOver = true;
             }
 
         }
@@ -242,9 +275,9 @@ namespace HelloDungeonAIE
             //Restarts the game if player wants to
             if (input == 1)
             {
-                ResetVariables();
                 Console.Clear();
-                StartGame();
+                currentArea = 0;
+                gameOver = false;
             }
             //Ends game if player wants to
             else if (input == 2)
@@ -252,6 +285,7 @@ namespace HelloDungeonAIE
                 Console.Clear();
                 Console.WriteLine("Goodbye, coward!");
                 Console.ReadKey();
+                gameOver = true;
             }
         }
 
@@ -263,6 +297,8 @@ namespace HelloDungeonAIE
             characterJob = "";
             name = "";
             input = 0;
+            currentArea = 0;
+            playerIsDead = false;
         }
 
         public void StrangeManRiddle()
@@ -295,7 +331,7 @@ namespace HelloDungeonAIE
                     Console.ReadKey();
 
                     //Would call the next level here, but for time's sake will end the game
-                    WinScreen();
+                    gameOver = true;
                     break;
                 }
                 else
@@ -318,7 +354,8 @@ namespace HelloDungeonAIE
                         Console.WriteLine("You start to feel strange, as you see your soul being sucked from your body.");
                         Console.WriteLine("You die a pathetic death!");
                         Console.ReadKey();
-                        GameOver();
+                        playerIsDead = true;
+                        gameOver = true;
                     }
                 }
             }
